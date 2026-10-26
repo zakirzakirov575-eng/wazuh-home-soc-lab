@@ -1,0 +1,52 @@
+# Investigation: Windows Failed Logon (Event ID 4625)
+
+## 1. Summary
+
+Wazuh collected Windows Security Event ID 4625, indicating a failed logon attempt on the monitored Windows 11 endpoint.
+
+**Assessment:** Suspiciousness undetermined. The available event data is insufficient to conclude that an attack occurred.
+
+## 2. Environment
+
+- SIEM: Wazuh 4.14.9
+- Endpoint: Windows 11 Home Single Language
+- Agent: `Windows-Host` (ID `001`)
+- Event ID: `4625`
+- Wazuh rule: `60122`
+- Wazuh alert level: `5`
+
+## 3. Observed Event Details
+
+- Logon type: `2` (interactive logon)
+- Source address: `127.0.0.1`
+- Authentication package: `Negotiate`
+- Status: `0xc000006d`
+- Observed count: 2 events in the reviewed 24-hour window
+
+## 4. Analysis
+
+Event ID 4625 records a failed Windows logon. The loopback address `127.0.0.1` refers to the local host and does not identify an external source.
+
+Status `0xc000006d` indicates a general logon failure. Additional status fields, account context, timestamps, and surrounding events are needed to determine the cause.
+
+Two failed logons alone do not establish brute force, malicious activity, or compromise.
+
+## 5. Recommended Triage
+
+1. Review the event timestamp and affected account.
+2. Check the accompanying Windows status and substatus codes.
+3. Correlate nearby successful and failed logons.
+4. Review relevant process and authentication events.
+5. Escalate only if additional evidence supports suspicious activity.
+
+## 6. Conclusion
+
+The event was successfully located in Wazuh and documented for triage. No confirmed attack or compromise was established from the available evidence.
+
+## 7. Skills Demonstrated
+
+- Windows Security Event Log analysis
+- Wazuh alert investigation
+- Authentication failure triage
+- Evidence-based conclusions
+- Incident documentation

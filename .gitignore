@@ -1,0 +1,25 @@
+# Secrets and local configuration
+.env
+.env.*
+*.key
+*.pem
+*.p12
+*.pfx
+secrets/
+credentials/
+
+# Logs and exports
+*.log
+*.evtx
+*.jsonl
+*.pcap
+*.pcapng
+exports/
+
+# Local/editor/system files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.tmp

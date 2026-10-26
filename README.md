@@ -37,11 +37,11 @@ Detailed evidence and limitations: [detection scenarios](docs/detection-scenario
 
 Sanitized screenshots from the lab are available here:
 
-1. [Windows agent active](screenshots/01-agent-active.png)
-2. [FIM: file modified — rule 550](screenshots/02-fim-file-modified.png)
-3. [FIM: file added — rule 554](screenshots/03-fim-file-added.png)
-4. [Failed Windows logons — Event ID 4625](screenshots/04-failed-logons-4625.png)
-5. [Vulnerability Detection finding](screenshots/05-vulnerability-detection.png)
+1. [Windows agent active](screenshots/wazuh-agent-active.png.png)
+2. [FIM: file modified — rule 550](screenshots/fim-file-modified.png)
+3. [FIM: file added — rule 554](screenshots/fim-file-added.png)
+4. [Failed Windows logons — Event ID 4625](screenshots/failed-logons-4625.png)
+5. [Vulnerability Detection finding](screenshots/vulnerability-detection.png)
 
 The screenshots document observed lab behavior. They do not, by themselves, demonstrate exploitation or a production security incident.
 

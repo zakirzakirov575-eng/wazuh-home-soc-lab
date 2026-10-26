@@ -1,63 +1,41 @@
 # Wazuh Home SOC Lab
 
-A hands-on home Security Operations Center (SOC) lab built to practice endpoint monitoring, centralized log analysis, file integrity monitoring (FIM), Windows event investigation, Sysmon telemetry, and vulnerability detection.
+A small home lab I built to get practical experience with Wazuh and Windows event investigation.
 
-**Status:** Core lab is operational. Results below describe events observed in this lab; they are not claims of a production deployment or proof that a host was compromised.
+## Setup
 
-## Goals
-- Deploy Wazuh on an Ubuntu virtual machine.
-- Connect a Windows 11 endpoint using the Wazuh agent.
-- Collect Windows Security, System, Application, and Sysmon logs.
-- Detect file changes in a dedicated test directory.
-- Hunt for failed Windows logons.
-- Review vulnerability-detection findings and interpret alerts carefully.
+- Windows 11 host
+- Oracle VirtualBox
+- Ubuntu VM running Wazuh 4.14.9
+- Wazuh agent and Sysmon on the Windows endpoint
 
-## Architecture
-- **Host:** Windows 11
-- **Virtualization:** Oracle VirtualBox
-- **SIEM / manager:** Wazuh 4.14.9 on Ubuntu Linux
-- **Endpoint:** Windows host with Wazuh agent and Sysmon
-- **Dashboard:** Wazuh web interface, accessed locally through VirtualBox port forwarding
+The dashboard is available locally through VirtualBox port forwarding.
 
-See [architecture](docs/architecture.md) and [installation notes](docs/installation.md).
+## What I tested
 
-## Verified scenarios
+| Test | Result |
+|---|---|
+| Modified a file in `C:\\SOC-Lab` | Wazuh rule 550 fired |
+| Created a file in `C:\\SOC-Lab` | Wazuh rule 554 fired |
+| Searched Windows failed logons | Found Event ID 4625, Wazuh rule 60122 |
+| Checked Sysmon data | Sysmon Operational events appeared in Wazuh |
+| Checked vulnerability detection | VirtualBox vulnerability findings appeared in the dashboard |
 
-| Scenario | Evidence observed | Result |
-|---|---|---|
-| File modified | Wazuh rule **550**, level **7**, integrity checksum changed | Detected |
-| New file created | Wazuh rule **554**, level **5**, file added to the system | Detected |
-| Failed Windows logons | Event ID **4625**, Wazuh rule **60122** | Events searchable |
-| Sysmon telemetry | Sysmon Operational events ingested | Collection confirmed |
-| Vulnerability detection | VirtualBox-related CVE findings shown in dashboard | Findings available for triage |
+## Screenshots
 
-Detailed evidence and limitations: [detection scenarios](docs/detection-scenarios.md) and [sample incident notes](docs/incident-report.md).
+- [Windows agent connected](screenshots/wazuh-agent-active.png.png)
+- [File modified](screenshots/fim-file-modified.png)
+- [File created](screenshots/fim-file-added.png)
+- [Failed logons](screenshots/failed-logons-4625.png)
+- [Vulnerability finding](screenshots/vulnerability-detection.png)
 
-## Evidence screenshots
+## Notes
 
-Sanitized screenshots from the lab are available here:
+This is a one-endpoint lab, not a production SOC. The failed-logon events and vulnerability findings are examples to investigate, not proof that the machine was attacked. The file changes were made deliberately to test FIM.
 
-1. [Windows agent active](screenshots/wazuh-agent-active.png.png)
-2. [FIM: file modified — rule 550](screenshots/fim-file-modified.png)
-3. [FIM: file added — rule 554](screenshots/fim-file-added.png)
-4. [Failed Windows logons — Event ID 4625](screenshots/failed-logons-4625.png)
-5. [Vulnerability Detection finding](screenshots/vulnerability-detection.png)
-
-The screenshots document observed lab behavior. They do not, by themselves, demonstrate exploitation or a production security incident.
-
-## Hunting queries
-Example Wazuh Discover filters are documented in [queries/wazuh-hunting.md](queries/wazuh-hunting.md).
-
-## Security and privacy
-- Do **not** commit passwords, API keys, agent keys, private IP details, screenshots containing secrets, or raw logs with personal information.
-- Dashboard addresses in this project are examples for local use only. Do not expose the dashboard publicly.
-- A vulnerability finding is not proof of exploitation or compromise.
-- A single failed logon is not enough to conclude that an attack occurred. Correlate with account, process, source, time, and surrounding events.
-
-## Next steps
-- Build a controlled detection test for additional Windows events.
-- Document triage steps and false-positive considerations for each alert.
-- Add a small incident timeline based on correlated events.
-
-## Skills practiced
-Wazuh SIEM, Linux administration, Windows event logs, Sysmon, file integrity monitoring, event search, vulnerability triage, MITRE ATT&CK context, and concise incident documentation.
+More detail:
+- [Lab setup](docs/installation.md)
+- [Architecture](docs/architecture.md)
+- [Detection results](docs/detection-scenarios.md)
+- [Triage notes](docs/incident-report.md)
+- [Wazuh searches](queries/wazuh-hunting.md)

@@ -1,37 +1,27 @@
-# Sample SOC Triage Notes
+# Triage Notes
 
-## Case A — Windows failed logon
-**Category:** Authentication  
-**Evidence:** Windows Event ID 4625; Wazuh rule 60122, level 5  
-**Observed context:** Interactive logon type, loopback source address, process path under `C:\\Windows\\System32\\svchost.exe`, Negotiate authentication package.
+These notes cover two things I checked in the lab.
 
-### Initial assessment
-A failed logon was recorded. The event alone does not establish whether the cause was a mistyped credential, a local application/service, routine system behavior, or malicious activity.
+## Failed Windows logon
 
-### Triage checklist
-- [ ] Confirm timestamp and host context.
-- [ ] Inspect target username and logon process.
-- [ ] Correlate with nearby 4624 successful-logon events and other 4625 failures.
-- [ ] Check process creation and service activity around the same time.
-- [ ] Confirm whether the account and activity are expected.
-- [ ] Document disposition and supporting evidence.
+**Event:** Windows Event ID 4625  
+**Wazuh rule:** 60122, level 5
 
-**Disposition:** Inconclusive from the available single-event context. Additional correlation is required.
+The event I inspected showed an interactive logon type, source address `127.0.0.1`, process `C:\\Windows\\System32\\svchost.exe`, and authentication package `Negotiate`.
 
-## Case B — File integrity alert
-**Category:** File integrity monitoring  
-**Evidence:** Wazuh rule 550 for a modified file and rule 554 for a newly created file in `C:\\SOC-Lab`.
+I could confirm that a logon failed, but not why it failed. A single event is not enough to call this an attack. To understand it better, I would need to check the target account, timestamp, nearby 4625 and 4624 events, and related process or service activity.
 
-### Initial assessment
-The changes were intentionally made as lab validation tests. The expected FIM alerts were generated, confirming the configured monitor detects file changes in the test directory.
+**Assessment:** Inconclusive with the information I collected.
 
-### Triage checklist
-- [x] Confirm alert references the monitored directory.
-- [x] Check whether the change aligns with the planned test.
-- [ ] In a real investigation, identify the process/user responsible for the change.
-- [ ] Compare file hashes and assess file contents in a safe environment if unexpected.
+## File integrity monitoring
 
-**Disposition:** Expected lab activity; detection validated.
+I deliberately changed `C:\\SOC-Lab\\test.txt` and created `C:\\SOC-Lab\\soc-test-2.txt`.
 
-## Analyst note
-Severity and ATT&CK mappings are triage aids, not verdicts. A reliable conclusion requires context, corroboration, and documentation of uncertainty.
+- Rule 550 appeared for the modified file.
+- Rule 554 appeared for the new file.
+
+These were expected results from my own tests, so I treated them as successful FIM checks rather than incidents.
+
+## Takeaway
+
+An alert tells me what matched a rule. I still need surrounding event data to decide whether the activity is expected or suspicious.

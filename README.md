@@ -33,6 +33,18 @@ See [architecture](docs/architecture.md) and [installation notes](docs/installat
 
 Detailed evidence and limitations: [detection scenarios](docs/detection-scenarios.md) and [sample incident notes](docs/incident-report.md).
 
+## Evidence screenshots
+
+Sanitized screenshots from the lab are available here:
+
+1. [Windows agent active](screenshots/01-agent-active.png)
+2. [FIM: file modified — rule 550](screenshots/02-fim-file-modified.png)
+3. [FIM: file added — rule 554](screenshots/03-fim-file-added.png)
+4. [Failed Windows logons — Event ID 4625](screenshots/04-failed-logons-4625.png)
+5. [Vulnerability Detection finding](screenshots/05-vulnerability-detection.png)
+
+The screenshots document observed lab behavior. They do not, by themselves, demonstrate exploitation or a production security incident.
+
 ## Hunting queries
 Example Wazuh Discover filters are documented in [queries/wazuh-hunting.md](queries/wazuh-hunting.md).
 
@@ -43,7 +55,6 @@ Example Wazuh Discover filters are documented in [queries/wazuh-hunting.md](quer
 - A single failed logon is not enough to conclude that an attack occurred. Correlate with account, process, source, time, and surrounding events.
 
 ## Next steps
-- Add sanitized dashboard screenshots to `screenshots/`.
 - Build a controlled detection test for additional Windows events.
 - Document triage steps and false-positive considerations for each alert.
 - Add a small incident timeline based on correlated events.
